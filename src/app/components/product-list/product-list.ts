@@ -1,14 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../services/product';
 import { Products } from '../../types/product.interface';
-import { from, Observable } from 'rxjs';
-import { NgOptimizedImage } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
