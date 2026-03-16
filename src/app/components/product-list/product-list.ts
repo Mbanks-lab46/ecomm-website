@@ -3,21 +3,24 @@ import { CommonModule, AsyncPipe } from '@angular/common';
 import { Product } from '../../services/product';
 import { Products } from '../../types/product.interface';
 import { RouterLink, ActivatedRoute } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { CartService } from '../../services/cart';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
 export class ProductList implements OnInit {
   private productService = inject(Product);
+  private cartService = inject(CartService);
   private route = inject(ActivatedRoute);
+
   products = signal<Products[]>([]);
   filteredProducts = signal<Products[]>([]);
   searchQuery = signal<string>('');
+  addedProductId = signal<number | null>(null);
   
   ngOnInit(): void {
     this.productService.getAll().subscribe(data => {
@@ -44,6 +47,13 @@ export class ProductList implements OnInit {
         p.description.toLowerCase().includes(lower)
       )
     );
+  }
+
+  addToCart(event: Event, product: Products) {
+    event.stopPropagation();
+    this.cartService.addToCart(product);
+    this.addedProductId.set(product.id);
+    setTimeout(() => this.addedProductId.set(null), 1500);
   }
 
  

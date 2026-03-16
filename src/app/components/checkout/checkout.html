@@ -1,0 +1,262 @@
+<div class="container py-5">
+
+  @if (orderPlaced()) {
+
+    <div class="text-center py-5">
+      <div class="mb-4" style="font-size: 4rem;">✓</div>
+      <h2 class="fw-bold text-uppercase mb-2">Order Placed!</h2>
+      <p class="text-muted mb-4">
+        Thank you for your order. We'll send a confirmation to your email shortly.
+      </p>
+      <a routerLink="/products" class="btn btn-dark px-5 py-3 text-uppercase rounded-0">
+        Continue Shopping
+      </a>
+    </div>
+
+  } @else {
+
+    <h2 class="fw-bold text-uppercase mb-4">Checkout</h2>
+
+    @if (error()) {
+      <div class="alert alert-danger py-2 small">{{ error() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row g-4">
+
+        <div class="col-lg-8">
+
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+              <h5 class="fw-bold text-uppercase mb-4">Shipping Information</h5>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small text-uppercase fw-bold">First Name</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="firstName?.invalid && firstName?.touched"
+                    formControlName="firstName"
+                  />
+                  @if (firstName?.touched && firstName?.hasError('required')) {
+                    <div class="invalid-feedback">First name is required.</div>
+                  }
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-uppercase fw-bold">Last Name</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="lastName?.invalid && lastName?.touched"
+                    formControlName="lastName"
+                  />
+                  @if (lastName?.touched && lastName?.hasError('required')) {
+                    <div class="invalid-feedback">Last name is required.</div>
+                  }
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-uppercase fw-bold">Email</label>
+                  <input
+                    type="email"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="email?.invalid && email?.touched"
+                    formControlName="email"
+                  />
+                  @if (email?.touched && email?.hasError('required')) {
+                    <div class="invalid-feedback">Email is required.</div>
+                  }
+                  @if (email?.touched && email?.hasError('email')) {
+                    <div class="invalid-feedback">Please enter a valid email.</div>
+                  }
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-uppercase fw-bold">Phone</label>
+                  <input
+                    type="tel"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="phone?.invalid && phone?.touched"
+                    formControlName="phone"
+                  />
+                  @if (phone?.touched && phone?.hasError('required')) {
+                    <div class="invalid-feedback">Phone is required.</div>
+                  }
+                </div>
+                <div class="col-12">
+                  <label class="form-label small text-uppercase fw-bold">Address</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="address?.invalid && address?.touched"
+                    formControlName="address"
+                  />
+                  @if (address?.touched && address?.hasError('required')) {
+                    <div class="invalid-feedback">Address is required.</div>
+                  }
+                </div>
+                <div class="col-md-5">
+                  <label class="form-label small text-uppercase fw-bold">City</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="city?.invalid && city?.touched"
+                    formControlName="city"
+                  />
+                  @if (city?.touched && city?.hasError('required')) {
+                    <div class="invalid-feedback">City is required.</div>
+                  }
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small text-uppercase fw-bold">State</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="state?.invalid && state?.touched"
+                    formControlName="state"
+                  />
+                  @if (state?.touched && state?.hasError('required')) {
+                    <div class="invalid-feedback">State is required.</div>
+                  }
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small text-uppercase fw-bold">Zip Code</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="zipCode?.invalid && zipCode?.touched"
+                    formControlName="zipCode"
+                  />
+                  @if (zipCode?.touched && zipCode?.hasError('required')) {
+                    <div class="invalid-feedback">Zip code is required.</div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+              <h5 class="fw-bold text-uppercase mb-4">Payment Information</h5>
+              <p class="text-muted small mb-3">
+                This is a demo — do not enter real card details.
+              </p>
+
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label small text-uppercase fw-bold">Name on Card</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    [class.is-invalid]="cardName?.invalid && cardName?.touched"
+                    formControlName="cardName"
+                  />
+                  @if (cardName?.touched && cardName?.hasError('required')) {
+                    <div class="invalid-feedback">Name on card is required.</div>
+                  }
+                </div>
+                <div class="col-12">
+                  <label class="form-label small text-uppercase fw-bold">Card Number</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="16 digit card number"
+                    [class.is-invalid]="cardNumber?.invalid && cardNumber?.touched"
+                    formControlName="cardNumber"
+                    maxlength="16"
+                  />
+                  @if (cardNumber?.touched && cardNumber?.hasError('required')) {
+                    <div class="invalid-feedback">Card number is required.</div>
+                  }
+                  @if (cardNumber?.touched && cardNumber?.hasError('minlength')) {
+                    <div class="invalid-feedback">Card number must be 16 digits.</div>
+                  }
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-uppercase fw-bold">Expiry Date</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="MM/YY"
+                    [class.is-invalid]="expiryDate?.invalid && expiryDate?.touched"
+                    formControlName="expiryDate"
+                  />
+                  @if (expiryDate?.touched && expiryDate?.hasError('required')) {
+                    <div class="invalid-feedback">Expiry date is required.</div>
+                  }
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-uppercase fw-bold">CVV</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="3-4 digits"
+                    [class.is-invalid]="cvv?.invalid && cvv?.touched"
+                    formControlName="cvv"
+                    maxlength="4"
+                  />
+                  @if (cvv?.touched && cvv?.hasError('required')) {
+                    <div class="invalid-feedback">CVV is required.</div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+              <h5 class="fw-bold text-uppercase mb-4">Order Summary</h5>
+
+              @let items = cartService.cart$ | async;
+              @let total = cartService.cartTotal$ | async;
+
+              @for (item of items ?? []; track item.product.id) {
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div>
+                    <p class="mb-0 small fw-bold">{{ item.product.name }}</p>
+                    <p class="mb-0 small text-muted">Qty: {{ item.quantity }}</p>
+                  </div>
+                  <span class="small fw-bold">
+                    ${{ (item.product.price * item.quantity).toFixed(2) }}
+                  </span>
+                </div>
+              }
+
+              <hr/>
+
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted small">Subtotal</span>
+                <span class="small">${{ total?.toFixed(2) }}</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted small">Shipping</span>
+                <span class="small text-success">Free</span>
+              </div>
+              <hr/>
+              <div class="d-flex justify-content-between mb-4">
+                <span class="fw-bold">Total</span>
+                <span class="fw-bold">${{ total?.toFixed(2) }}</span>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-dark w-100 py-3 text-uppercase fw-bold rounded-0"
+                [disabled]="loading()">
+                @if (loading()) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                }
+                Place Order
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+  }
+
+</div>

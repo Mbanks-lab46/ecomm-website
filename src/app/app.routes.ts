@@ -1,9 +1,4 @@
 import { Routes } from '@angular/router';
-import { ProductList } from './components/product-list/product-list';
-import { Cart } from './components/cart/cart';
-import { Login } from './components/auth/login/login';
-import { Register } from './components/auth/register/register';
-import { NonFound } from './components/non-found/non-found';
 import { guestGuard } from './guards/guest-guard';
 import { authGuard } from './guards/auth-guard';
 
@@ -38,6 +33,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/orders/orders')
         .then(m => m.Orders)
+  },
+  {
+  path: 'checkout',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./components/checkout/checkout')
+      .then(m => m.Checkout)
   },
   {
     path: '**',

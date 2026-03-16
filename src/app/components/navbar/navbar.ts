@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { Subject  } from 'rxjs';
 import { AuthUser } from '../../types/auth.interface';
 import { AuthService } from '../../services/auth.service.ts';
+import { CartService } from '../../services/cart';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -15,6 +16,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 })
 export class Navbar implements OnInit, OnDestroy {
   authService = inject(AuthService);
+  cartService = inject(CartService);
   cartCount = signal<number>(0);
   menuOpen = signal<boolean>(false);
   searchOpen = signal<boolean>(false);
