@@ -1,0 +1,97 @@
+.hero {
+  min-height: 85vh;
+  background-color: #f8f8f8;
+  padding: 80px 0;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  max-width: 420px;
+}
+
+.hero-img {
+  border-radius: 0;
+  object-fit: cover;
+  max-height: 500px;
+  width: 100%;
+}
+
+.letter-spacing {
+  letter-spacing: 2px;
+}
+
+.category-card {
+  height: 280px;
+
+  .category-img {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .category-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.6) 0%,
+      transparent 60%
+    );
+    transition: background 0.3s ease;
+
+    span {
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+  }
+
+  &:hover {
+    .category-img {
+      transform: scale(1.05);
+    }
+
+    .category-overlay {
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.75) 0%,
+        transparent 70%
+      );
+    }
+  }
+}
+
+.promo-banner {
+  background-color: #f5f5f5;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.btn-dark,
+.btn-outline-dark {
+  border-radius: 0;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+}
+
+footer {
+  background-color: #fff;
+
+  a:hover {
+    color: #000 !important;
+  }
+}
