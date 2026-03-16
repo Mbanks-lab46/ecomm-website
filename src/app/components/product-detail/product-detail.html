@@ -1,1 +1,72 @@
-<p>product-detail works!</p>
+<div class="container py-5">
+
+  <a routerLink="/products"
+    class="btn btn-link text-dark ps-0 mb-4 text-decoration-none">
+    ← Back to Products
+  </a>
+
+  @if (loading()) {
+    <div class="d-flex justify-content-center py-5">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+
+  @if (product()) {
+    <div class="row g-5">
+
+      <div class="col-md-6">
+        <img
+          [src]="product()!.imageUrl"
+          [alt]="product()!.name"
+          class="img-fluid w-100 product-image"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <h1 class="fw-bold mb-2">{{ product()!.name }}</h1>
+        <p class="fs-4 fw-bold mb-3">${{ product()!.price }}</p>
+        <p class="text-muted mb-4">{{ product()!.description }}</p>
+
+        @if (product()!.stock > 0) {
+          <p class="text-success small mb-4">
+            ✓ In Stock ({{ product()!.stock }} available)
+          </p>
+        } @else {
+          <p class="text-danger small mb-4">✗ Out of Stock</p>
+        }
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <span class="fw-bold text-uppercase small">Quantity</span>
+          <div class="d-flex align-items-center border">
+            <button
+              class="btn btn-link text-dark px-3 py-2"
+              (click)="decreaseQty()">
+              −
+            </button>
+            <span class="px-3">{{ quantity() }}</span>
+            <button
+              class="btn btn-link text-dark px-3 py-2"
+              (click)="increaseQty()">
+              +
+            </button>
+          </div>
+        </div>
+
+        <button
+          class="btn btn-dark w-100 py-3 text-uppercase fw-bold mb-3 rounded-0"
+          [disabled]="product()!.stock === 0"
+          (click)="addToCart()">
+          {{ added() ? '✓ Added to Cart' : 'Add to Cart' }}
+        </button>
+
+        <button class="btn btn-outline-dark w-100 py-3 text-uppercase fw-bold rounded-0">
+          Add to Wishlist
+        </button>
+
+      </div>
+    </div>
+  }
+
+</div>
