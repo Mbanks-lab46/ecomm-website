@@ -1,1 +1,96 @@
-<p>orders works!</p>
+<div class="container py-5">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h2 class="fw-bold text-uppercase mb-0">My Orders</h2>
+    <a routerLink="/products" class="btn btn-outline-dark rounded-0 text-uppercase small">
+      Continue Shopping
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="d-flex justify-content-center py-5">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="alert alert-danger py-2 small">{{ error() }}</div>
+  }
+
+  @if (!loading() && orders().length === 0) {
+    <div class="text-center py-5">
+      <p class="text-muted fs-5 mb-4">You haven't placed any orders yet.</p>
+      <a routerLink="/products" class="btn btn-dark px-5 py-3 text-uppercase rounded-0">
+        Start Shopping
+      </a>
+    </div>
+  }
+
+  @if (!loading() && orders().length > 0) {
+    <div class="d-flex flex-column gap-3">
+      @for (order of orders(); track order.id) {
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+
+            <!-- Order header -->
+            <div class="row align-items-center">
+              <div class="col-6 col-md-3">
+                <p class="text-muted small mb-0 text-uppercase">Order</p>
+                <p class="fw-bold mb-0">#{{ order.id }}</p>
+              </div>
+              <div class="col-6 col-md-3">
+                <p class="text-muted small mb-0 text-uppercase">Date</p>
+                <p class="fw-bold mb-0">
+                  {{ order.createdAt | date: 'MMM d, yyyy' }}
+                </p>
+              </div>
+              <div class="col-6 col-md-2 mt-3 mt-md-0">
+                <p class="text-muted small mb-0 text-uppercase">Total</p>
+                <p class="fw-bold mb-0">${{ order.totalAmount.toFixed(2) }}</p>
+              </div>
+              <div class="col-6 col-md-2 mt-3 mt-md-0">
+                <p class="text-muted small mb-0 text-uppercase">Status</p>
+                <span class="badge rounded-0 {{ getStatusBadgeClass(order.status) }}">
+                  {{ order.status }}
+                </span>
+              </div>
+              <div class="col-12 col-md-2 mt-3 mt-md-0 text-md-end">
+                <button
+                  class="btn btn-outline-dark btn-sm rounded-0 text-uppercase small"
+                  (click)="toggleOrder(order.id)">
+                  {{ expandedOrderId() === order.id ? 'Hide' : 'View' }} Items
+                </button>
+              </div>
+            </div>
+
+            <!-- Order items — expanded -->
+            @if (expandedOrderId() === order.id) {
+              <hr class="my-3"/>
+              <div class="d-flex flex-column gap-2">
+                @for (item of order.orderItems; track item.id) {
+                  <div class="d-flex align-items-center gap-3">
+                    <img
+                      [src]="item.product.imageUrl"
+                      [alt]="item.product.name"
+                      style="width: 60px; height: 60px; object-fit: cover;"
+                    />
+                    <div class="flex-grow-1">
+                      <p class="fw-bold mb-0 small">{{ item.product.name }}</p>
+                      <p class="text-muted mb-0 small">Qty: {{ item.quantity }}</p>
+                    </div>
+                    <span class="fw-bold small">
+                      ${{ (item.unitPrice * item.quantity).toFixed(2) }}
+                    </span>
+                  </div>
+                }
+              </div>
+            }
+
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+</div>
