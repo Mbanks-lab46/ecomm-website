@@ -1,1 +1,115 @@
-<p>register works!</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+
+      <h2 class="fw-bold text-uppercase mb-1">Create Account</h2>
+      <p class="text-muted mb-4">Join us to start shopping.</p>
+
+      @if (error()) {
+        <div class="alert alert-danger py-2 small">{{ error() }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="row g-3 mb-3">
+          <div class="col">
+            <label class="form-label small text-uppercase fw-bold">First Name</label>
+            <input
+              type="text"
+              class="form-control rounded-0"
+              [class.is-invalid]="firstName?.invalid && firstName?.touched"
+              formControlName="firstName"
+            />
+            @if (firstName?.touched && firstName?.hasError('required')) {
+              <div class="invalid-feedback">First name is required.</div>
+            }
+            @if (firstName?.touched && firstName?.hasError('minlength')) {
+              <div class="invalid-feedback">Must be at least 2 characters.</div>
+            }
+          </div>
+          <div class="col">
+            <label class="form-label small text-uppercase fw-bold">Last Name</label>
+            <input
+              type="text"
+              class="form-control rounded-0"
+              [class.is-invalid]="lastName?.invalid && lastName?.touched"
+              formControlName="lastName"
+            />
+            @if (lastName?.touched && lastName?.hasError('required')) {
+              <div class="invalid-feedback">Last name is required.</div>
+            }
+            @if (lastName?.touched && lastName?.hasError('minlength')) {
+              <div class="invalid-feedback">Must be at least 2 characters.</div>
+            }
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small text-uppercase fw-bold">Email</label>
+          <input
+            type="email"
+            class="form-control rounded-0"
+            [class.is-invalid]="email?.invalid && email?.touched"
+            formControlName="email"
+          />
+          @if (email?.touched && email?.hasError('required')) {
+            <div class="invalid-feedback">Email is required.</div>
+          }
+          @if (email?.touched && email?.hasError('email')) {
+            <div class="invalid-feedback">Please enter a valid email.</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small text-uppercase fw-bold">Password</label>
+          <input
+            type="password"
+            class="form-control rounded-0"
+            [class.is-invalid]="password?.invalid && password?.touched"
+            formControlName="password"
+          />
+          @if (password?.touched && password?.hasError('required')) {
+            <div class="invalid-feedback">Password is required.</div>
+          }
+          @if (password?.touched && password?.hasError('minlength')) {
+            <div class="invalid-feedback">Password must be at least 6 characters.</div>
+          }
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label small text-uppercase fw-bold">Confirm Password</label>
+          <input
+            type="password"
+            class="form-control rounded-0"
+            [class.is-invalid]="(confirmPassword?.touched && confirmPassword?.hasError('required')) || 
+                                 (confirmPassword?.touched && form.hasError('passwordMismatch'))"
+            formControlName="confirmPassword"
+          />
+          @if (confirmPassword?.touched && confirmPassword?.hasError('required')) {
+            <div class="invalid-feedback">Please confirm your password.</div>
+          }
+          @if (confirmPassword?.touched && form.hasError('passwordMismatch')) {
+            <div class="invalid-feedback">Passwords do not match.</div>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-dark w-100 py-3 text-uppercase fw-bold rounded-0"
+          [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          }
+          Create Account
+        </button>
+
+      </form>
+
+      <p class="text-center mt-4 small text-muted">
+        Already have an account?
+        <a routerLink="/login" class="text-dark fw-bold">Sign in</a>
+      </p>
+
+    </div>
+  </div>
+</div>

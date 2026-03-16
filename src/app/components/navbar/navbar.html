@@ -2,28 +2,37 @@
   <div class="container">
 
     <a class="navbar-brand fw-bold fs-4 text-dark" routerLink="/">
-      {{'Kubo KICKS' | uppercase}}
+      KUBO KICKS
     </a>
 
-    <button class="navbar-toggler border-0" type="button" (click)="toggleMenu()">
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      (click)="toggleMenu()">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" [class.show]="menuOpen()">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link text-dark fw-500" routerLink="/" routerLinkActive="active-link"
+          <a class="nav-link text-dark fw-500"
+            routerLink="/"
+            routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }">
             Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" routerLink="/products" routerLinkActive="active-link">
+          <a class="nav-link text-dark"
+            routerLink="/products"
+            routerLinkActive="active-link">
             Products
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" routerLink="/about" routerLinkActive="active-link">
+          <a class="nav-link text-dark"
+            routerLink="/about"
+            routerLinkActive="active-link">
             About
           </a>
         </li>
@@ -31,43 +40,66 @@
 
       <div class="d-flex align-items-center gap-3">
 
-        <button class="btn btn-link text-dark p-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-            <path
-              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z" />
-          </svg>
-        </button>
+        <div class="search-wrapper" [class.open]="searchOpen()">
+          @if (searchOpen()) {
+            <div class="d-flex align-items-center search-input-wrap">
+              <input
+                #searchInput
+                type="text"
+                class="form-control rounded-0 border-0 border-bottom search-input"
+                placeholder="Search products..."
+                [value]="searchQuery()"
+                (input)="onSearchInput($event)"
+                (keydown)="onSearchKeydown($event)"
+                autofocus
+              />
+              <button class="btn btn-link text-dark p-0 ms-2" (click)="toggleSearch()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                </svg>
+              </button>
+            </div>
+          } @else {
+            <button class="btn btn-link text-dark p-0" (click)="toggleSearch()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/>
+              </svg>
+            </button>
+          }
+        </div>
 
         <a routerLink="/cart" class="btn btn-link text-dark p-0 position-relative">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
-            <path
-              d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
           </svg>
           @if (cartCount() > 0) {
-          <span class="cart-badge">{{ cartCount() }}</span>
+            <span class="cart-badge">{{ cartCount() }}</span>
           }
         </a>
 
-        @if (isLoggedIn) {
-        <div class="dropdown">
-          <button class="btn btn-link text-dark text-decoration-none dropdown-toggle small text-uppercase fw-bold"
-            data-bs-toggle="dropdown">
-            {{ currentUser?.firstName }}
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end rounded-0">
-            <li><a class="dropdown-item small" routerLink="/orders">My Orders</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <button class="dropdown-item small text-danger" (click)="authService.logout()">
+        @let loggedIn = authService.isLoggedIn$ | async;
+        @let user = authService.currentUser$ | async;
+
+        @if (loggedIn) {
+          <div ngbDropdown class="d-inline-block">
+            <button
+              class="btn btn-link text-dark text-decoration-none small text-uppercase fw-bold"
+              ngbDropdownToggle>
+              {{ user?.firstName }}
+            </button>
+            <div ngbDropdownMenu class="rounded-0">
+              <a ngbDropdownItem routerLink="/orders">My Orders</a>
+              <div class="dropdown-divider"></div>
+              <button ngbDropdownItem class="text-danger" (click)="authService.logout()">
                 Sign Out
               </button>
-            </li>
-          </ul>
-        </div>
+            </div>
+          </div>
         } @else {
-        <a routerLink="/login" class="btn btn-dark btn-sm px-3">Login</a>
+          <div class="d-flex gap-2">
+            <a routerLink="/login" class="btn btn-dark btn-sm px-3">Login</a>
+            <a routerLink="/register" class="btn btn-outline-dark btn-sm px-3">Register</a>
+          </div>
         }
 
       </div>
